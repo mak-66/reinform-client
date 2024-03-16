@@ -8,6 +8,7 @@ class ReInformApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'ReInform',
       theme: ThemeData.dark(),
       home: ReInformHomePage(),
     );
@@ -20,20 +21,28 @@ class ReInformHomePage extends StatefulWidget {
 }
 
 class _ReInformHomePageState extends State<ReInformHomePage> {
-  final TextEditingController _textController = TextEditingController();
-  String _outputText = "";
+  final TextEditingController textController = TextEditingController();
+  var outputs = <Map<String, String>>{};
+  ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+  }
 
   @override
   void dispose() {
-    _textController.dispose();
+    textController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
   void _handleSubmitted(String text) {
     setState(() {
-      _outputText +=
-          '\n\nUser:\n>>> $text\n\nRe-Inform:\n<<< ${text.split('').reversed.join()}';
-      _textController.clear();
+      outputs.add({"input": text, "answer": "", "explanation": "", "links": ""});
+      textController.clear();
+      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
     });
   }
 
@@ -41,59 +50,67 @@ class _ReInformHomePageState extends State<ReInformHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('ReInform'), // Re-added title
+        title: const Text('ReInform'), // Re-added title
       ),
       body: Column(
         children: [
           Expanded(
-            child: Padding(
-              padding: EdgeInsets.all(16.0),
-              child: SingleChildScrollView(
-                // Only show output container if _outputText is not empty
-                child: _outputText.isEmpty
-                    ? null // Conditionally render the output container
-                    : Container(
-                        decoration: BoxDecoration(
-                          color: Colors.grey[700],
-                          borderRadius: BorderRadius.all(Radius.circular(16.0)),
+            child: outputs.isEmpty
+                ? const Center(child: Text('No conversations yet'))
+                : ListView.builder(
+                    itemCount: outputs.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        padding: EdgeInsets.all(8.0),
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: Color.fromARGB(255, 40, 40, 40),
+                            borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                          ),
+                          padding: const EdgeInsets.all(16.0),
+                          child: Text(
+                            outputs.elementAt(index)["input"] ?? '',
+                            style: const TextStyle(
+                              fontSize: 16.0,
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
-                        padding: EdgeInsets.all(16.0),
-                        child: Text(
-                          _outputText,
-                          style: TextStyle(fontSize: 16.0, color: Colors.white),
-                        ),
-                      ),
-              ),
-            ),
+                      );
+                    },
+                    // Add the key and controller for ListView
+                    key: ValueKey(outputs.length),
+                    controller: _scrollController,
+                  ),
           ),
           Container(
             color: Theme.of(context).primaryColor,
             child: Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: [
                   Expanded(
                     child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.grey[700],
+                      decoration: const BoxDecoration(
+                        color: Color.fromARGB(255, 40, 40, 40),
                         borderRadius: BorderRadius.all(Radius.circular(16.0)),
                       ),
-                      padding: EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.all(16.0),
                       child: TextField(
-                        controller: _textController,
+                        controller: textController,
                         maxLines: null,
                         decoration: InputDecoration.collapsed(
-                          hintText: 'Enter your prompt',
-                          hintStyle: TextStyle(color: Colors.white70),
+                          hintText: 'Enter a statement',
+                          hintStyle: TextStyle(color: Colors.grey[500]),
                         ),
                         onSubmitted: _handleSubmitted,
-                        style: TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.white),
                       ),
                     ),
                   ),
                   IconButton(
-                    icon: Icon(Icons.send),
-                    onPressed: () => _handleSubmitted(_textController.text),
+                    icon: const Icon(Icons.send),
+                    onPressed: () => _handleSubmitted(textController.text),
                   ),
                 ],
               ),
