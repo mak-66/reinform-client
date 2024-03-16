@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // Import for RawKeyboardListener
 
 void main() {
-  runApp(ReInformApp());
+  runApp(const ReInformApp());
 }
 
 class ReInformApp extends StatelessWidget {
+  const ReInformApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData.dark(),
-      home: ReInformHomePage(),
+      home: const ReInformHomePage(),
     );
   }
 }
 
 class ReInformHomePage extends StatefulWidget {
+  const ReInformHomePage({super.key});
+
   @override
   _ReInformHomePageState createState() => _ReInformHomePageState();
 }
@@ -22,6 +27,7 @@ class ReInformHomePage extends StatefulWidget {
 class _ReInformHomePageState extends State<ReInformHomePage> {
   final TextEditingController _textController = TextEditingController();
   String _outputText = "";
+  bool output = false;
 
   @override
   void dispose() {
@@ -30,10 +36,17 @@ class _ReInformHomePageState extends State<ReInformHomePage> {
   }
 
   void _handleSubmitted(String text) {
+    if (text.trim().isEmpty) {
+      // If input is empty, just clear the text field
+      _textController.clear();
+      return;
+    }
+
     setState(() {
       _outputText +=
-          '\n\nUser:\n>>> $text\n\nRe-Inform:\n<<< ${text.split('').reversed.join()}';
+          'User:\n>>> $text\nRe-Inform:\n<<< ${text.split('').reversed.join()}\n\n';
       _textController.clear();
+      output = false; // Reset output after submission
     });
   }
 
@@ -41,26 +54,27 @@ class _ReInformHomePageState extends State<ReInformHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('ReInform'), // Re-added title
+        title: const Text('ReInform'), // Title of the app
       ),
       body: Column(
         children: [
           Expanded(
             child: Padding(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: SingleChildScrollView(
-                // Only show output container if _outputText is not empty
                 child: _outputText.isEmpty
-                    ? null // Conditionally render the output container
+                    ? null
                     : Container(
                         decoration: BoxDecoration(
-                          color: Colors.grey[700],
-                          borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                          color: Colors.grey[900],
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(16.0)),
                         ),
-                        padding: EdgeInsets.all(16.0),
+                        padding: const EdgeInsets.all(16.0),
                         child: Text(
                           _outputText,
-                          style: TextStyle(fontSize: 16.0, color: Colors.white),
+                          style: const TextStyle(
+                              fontSize: 16.0, color: Colors.white),
                         ),
                       ),
               ),
@@ -69,30 +83,41 @@ class _ReInformHomePageState extends State<ReInformHomePage> {
           Container(
             color: Theme.of(context).primaryColor,
             child: Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: [
                   Expanded(
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.grey[700],
-                        borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                        color: Colors.grey[900],
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(16.0)),
                       ),
-                      padding: EdgeInsets.all(16.0),
-                      child: TextField(
-                        controller: _textController,
-                        maxLines: null,
-                        decoration: InputDecoration.collapsed(
-                          hintText: 'Enter your prompt',
-                          hintStyle: TextStyle(color: Colors.white70),
+                      padding: const EdgeInsets.all(16.0),
+                      child: RawKeyboardListener(
+                        focusNode: FocusNode(), // Optional: manage focus
+                        onKey: (RawKeyEvent event) {
+                          if (event.logicalKey == LogicalKeyboardKey.enter) {
+                            _handleSubmitted(_textController.text);
+                            output = false; // Reset output on Enter press
+                          }
+                        },
+                        child: TextField(
+                          controller: _textController,
+                          maxLines: null, // Allow for multi-line input
+                          decoration: const InputDecoration.collapsed(
+                            hintText: 'Enter your prompt',
+                            hintStyle: TextStyle(color: Colors.white),
+                          ),
+                          onSubmitted:
+                              _handleSubmitted, // Handle text submission
+                          style: const TextStyle(color: Colors.white),
                         ),
-                        onSubmitted: _handleSubmitted,
-                        style: TextStyle(color: Colors.white),
                       ),
                     ),
                   ),
                   IconButton(
-                    icon: Icon(Icons.send),
+                    icon: const Icon(Icons.send),
                     onPressed: () => _handleSubmitted(_textController.text),
                   ),
                 ],
