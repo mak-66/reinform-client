@@ -84,7 +84,6 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Stack(
           alignment: Alignment.center,
           children: const <Widget>[
-          children: const <Widget>[
             Positioned(
               top: 200, // Adjust this value as needed
               child: Text(
@@ -107,10 +106,14 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: Enter,
         tooltip: 'Enter',
         child: const Icon(Icons.add),
       ),
     );
+  }
+
+  void Enter() {
+    // Code for the Enter Button
   }
 }
