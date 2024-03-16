@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
           // Notice that the counter didn't reset back to zero; the application
           // is not restarted.
           ),
-      home: const MyHomePage(title: 'ReInform'),
+      home: const MyHomePage(title: 'ReInform '),
     );
   }
 }
@@ -85,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
               top: 200, // Adjust this value as needed
               child: Text(
                 'Please enter the prompt you wish to learn about:',
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(color: Colors.white, fontSize: 20),
               ),
             ),
             Positioned(
@@ -93,9 +93,11 @@ class _MyHomePageState extends State<MyHomePage> {
               left: 50, // Adjust this value as needed
               right: 50, // Adjust this value as needed
               child: TextField(
+                style: TextStyle(color: Colors.white, fontSize: 15),
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: 'Type here...',
+                  hintStyle: TextStyle(color: Colors.grey, fontSize: 15),
                 ),
               ),
             ),
@@ -104,8 +106,9 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: enter,
-        tooltip: 'Enter',
+        tooltip: 'Enter',      
         child: const Icon(Icons.add),
+        
       ),
     );
   }
