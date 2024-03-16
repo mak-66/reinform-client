@@ -7,15 +7,6 @@ void main() {
 class MyApp extends StatelessWidget {
   MyApp({super.key});
 
-  var colorSwatch = {
-    'primaryBase': Colors.grey,
-    'secondaryBase': Colors.grey,
-    'accentBase': Colors.grey,
-    'primaryText': Colors.grey,
-    'secondaryText': Colors.grey,
-    'accentText': Colors.grey,
-  };
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -56,6 +47,15 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  var colorSwatch = {
+    'primaryBase': Colors.grey,
+    'secondaryBase': Colors.grey,
+    'accentBase': Colors.grey,
+    'primaryText': const Color.fromARGB(255, 255, 255, 255),
+    'secondaryText': Colors.grey,
+    'accentText': Colors.grey,
+  };
+
   //Process for handling process button
   void _processInputText() {
     setState(() {
@@ -77,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: const Center(
+      body: Center(
         child: Stack(
           alignment: Alignment.center,
           children: <Widget>[
@@ -85,7 +85,8 @@ class _MyHomePageState extends State<MyHomePage> {
               top: 200, // Adjust this value as needed
               child: Text(
                 'Please enter the prompt you wish to learn about:',
-                style: TextStyle(fontSize: 20),
+                style:
+                    TextStyle(fontSize: 20, color: colorSwatch['primaryText']),
               ),
             ),
             Positioned(
@@ -93,8 +94,8 @@ class _MyHomePageState extends State<MyHomePage> {
               left: 50, // Adjust this value as needed
               right: 50, // Adjust this value as needed
               child: TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
+                style: TextStyle(color: colorSwatch['primaryText']),
+                decoration: const InputDecoration(
                   hintText: 'Type here...',
                 ),
               ),
