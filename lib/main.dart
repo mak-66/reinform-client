@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // Import for RawKeyboardListener
 import 'package:http/http.dart' as http;
 import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() {
   runApp(const ReInformApp());
@@ -214,10 +215,19 @@ class _ReInformHomePageState extends State<ReInformHomePage>
                                           ]),
                                       const SizedBox(height: 4.0),
                                       Linkify(
+                                        onOpen: (link) async {
+                                          if (!await launchUrl(Uri.parse(link.url))) {
+                                            throw Exception('Could not launch ${link.url}');
+                                          }
+                                        },
                                         text: userInputOutput.explanation,
                                         style: const TextStyle(
                                           fontSize: 16.0,
                                           color: Colors.white,
+                                        ),
+                                        linkStyle: const TextStyle(
+                                          fontSize: 12.0,
+                                          color: Colors.blue,
                                         ),
                                       ),
                                     ],
