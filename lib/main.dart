@@ -10,21 +10,24 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'ReInform Client',
-      theme: ThemeData(
-          // This is the theme of your application.
-          //
-          // Try running your application with "flutter run". You'll see the
-          // application has a blue toolbar. Then, without quitting the app, try
-          // changing the primarySwatch below to Colors.green and then invoke
-          // "hot reload" (press "r" in the console where you ran "flutter run",
-          // or simply save your changes to "hot reload" in a Flutter IDE).
-          // Notice that the counter didn't reset back to zero; the application
-          // is not restarted.
 
-          ),
-      home: const MyHomePage(title: 'ReInform '),
+      //theme: ThemeData(
+      // This is the theme of your application.
+      //
+      // Try running your application with "flutter run". You'll see the
+      // application has a blue toolbar. Then, without quitting the app, try
+      // changing the primarySwatch below to Colors.green and then invoke
+      // "hot reload" (press "r" in the console where you ran "flutter run",
+      // or simply save your changes to "hot reload" in a Flutter IDE).
+      // Notice that the counter didn't reset back to zero; the application
+      // is not restarted.
+      // ),
+
+      home: MyHomePage(
+        title: '',
+      ),
     );
   }
 }
@@ -49,8 +52,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   var colorSwatch = {
-    'primaryBase': Colors.grey,
-    'secondaryBase': Colors.grey,
+    'primaryBase': Color.fromARGB(255, 31, 29, 29),
+    'secondaryBase': Color.fromARGB(255, 35, 34, 34),
     'accentBase': Colors.grey,
     'primaryText': const Color.fromARGB(255, 255, 255, 255),
     'secondaryText': Colors.grey,
@@ -72,12 +75,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    const Color customColor = Color.fromARGB(255, 31, 29, 29);
     return Scaffold(
-      backgroundColor: customColor,
+      backgroundColor: colorSwatch['primaryBase'],
       appBar: AppBar(
-        title: Text(widget.title),
-        backgroundColor: Colors.black,
+        backgroundColor: colorSwatch['primaryBase'],
+        title: Text(
+          "ReInform",
+          style: TextStyle(color: colorSwatch['primaryText']),
+        ),
+        centerTitle: true,
       ),
       body: Center(
         child: Stack(
@@ -98,7 +104,8 @@ class _MyHomePageState extends State<MyHomePage> {
               right: 250, // Adjust this value as needed
               child: TextField(
                 style: TextStyle(color: colorSwatch['primaryText']),
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
+                  hintStyle: TextStyle(color: colorSwatch['primaryText']),
                   hintText: 'Type here...',
                   hintStyle: TextStyle(color: Colors.grey, fontSize: 15),
                 ),
@@ -125,8 +132,8 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+}
 
-  void Enter() {
-    // Code for the Enter Button
-  }
+void Enter() {
+  // Code for the Enter Button
 }
