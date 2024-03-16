@@ -66,6 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // called again, and so nothing would appear to happen.
 
       //TODO: Do proccessing command
+      _counter++;
     });
   }
 
@@ -77,6 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
+      body: Center(
       body: Center(
         child: Stack(
           alignment: Alignment.center,
@@ -92,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Positioned(
               top: 250, // Adjust this value as needed
               left: 50, // Adjust this value as needed
-              right: 50, // Adjust this value as needed
+              right: 250, // Adjust this value as needed
               child: TextField(
                 style: TextStyle(color: colorSwatch['primaryText']),
                 decoration: const InputDecoration(
@@ -100,18 +102,20 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
+            Positioned(
+              top: 250, // Adjust this value as needed
+              left: 1050, // Adjust this value as needed
+              right: 10, // Adjust this value as needed
+              child: ElevatedButton(
+                  onPressed: Enter, child: const Text('Process Text')),
+            )
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: enter,
-        tooltip: 'Enter',
-        child: const Icon(Icons.add),
       ),
     );
   }
 
-  void enter() {
+  void Enter() {
     // Code for the Enter Button
   }
 }
