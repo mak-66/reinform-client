@@ -90,7 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
           alignment: Alignment.center,
           children: <Widget>[
             Positioned(
-              top: 200, // Adjust this value as needed
+              top: 80, // Adjust this value as needed
               child: Text(
                 'Please enter the prompt you wish to learn about:',
                 // ignore: deprecated_member_use
@@ -100,7 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             Positioned(
-              top: 250, // Adjust this value as needed
+              top: 120, // Adjust this value as needed
               left: 50, // Adjust this value as needed
               right: 250, // Adjust this value as needed
               child: TextField(
@@ -112,10 +112,10 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             Positioned(
-              top: 250, // Adjust this value as needed
-              left: 1050, // Adjust this value as needed
-              right: 10, // Adjust this value as needed
-              child: SizedBox(
+              top: 500, // Adjust this value as needed
+              left: 100, // Adjust this value as needed
+              right: 100, // Adjust this value as needed
+              child: new SizedBox(
                 width: 100.0,
                 height: 50.0,
                 child: ElevatedButton(
