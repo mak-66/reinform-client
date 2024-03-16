@@ -106,6 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 decoration: InputDecoration(
                   hintStyle: TextStyle(color: colorSwatch['primaryText']),
                   hintText: 'Type here...',
+                  hintStyle: TextStyle(color: Colors.grey, fontSize: 15),
                 ),
               ),
             ),
@@ -113,9 +114,16 @@ class _MyHomePageState extends State<MyHomePage> {
               top: 250, // Adjust this value as needed
               left: 1050, // Adjust this value as needed
               right: 10, // Adjust this value as needed
-              child: ElevatedButton(
-                onPressed: Enter,
-                child: const Text('Process Text'),
+              child: new SizedBox(
+                width: 100.0,
+                height: 50.0,
+                child: ElevatedButton(
+                  child: Text(
+                    'Process',
+                    textScaleFactor: 2,
+                  ),
+                  onPressed: _processInputText,
+                ),
               ),
             )
           ],
