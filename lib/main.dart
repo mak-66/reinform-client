@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'ReInform Client',
       theme: ThemeData(
           // This is the theme of your application.
           //
@@ -58,13 +58,16 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
-  void _incrementCounter() {
+  //Process for handling process button
+  void _processInputText() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
+
+      //TODO: Do proccessing command
       _counter++;
     });
   }
@@ -80,6 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Stack(
           alignment: Alignment.center,
+          children: const <Widget>[
           children: const <Widget>[
             Positioned(
               top: 200, // Adjust this value as needed
