@@ -56,6 +56,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  int _counter = 0;
+
   //Process for handling process button
   void _processInputText() {
     setState(() {
@@ -66,6 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // called again, and so nothing would appear to happen.
 
       //TODO: Do proccessing command
+      _counter++;
     });
   }
 
@@ -77,20 +80,17 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: const Center(
+      body: Center(
         child: Stack(
           alignment: Alignment.center,
-          children: <Widget>[
+          children: const <Widget>[
             Positioned(
               top: 200, // Adjust this value as needed
               child: Text(
                 'Please enter the prompt you wish to learn about:',
-                style: TextStyle(fontSize: 20),
+                style: const TextStyle(fontSize: 20),
               ),
             ),
-            Scaffold(
-              
-            )
             Positioned(
               top: 250, // Adjust this value as needed
               left: 50, // Adjust this value as needed
@@ -106,14 +106,14 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: enter,
+        onPressed: Enter,
         tooltip: 'Enter',
         child: const Icon(Icons.add),
       ),
     );
   }
 
-  void enter() {
+  void Enter() {
     // Code for the Enter Button
   }
 }
