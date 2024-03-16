@@ -1,5 +1,8 @@
+
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // Import for RawKeyboardListener
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(const ReInformApp());
@@ -59,26 +62,38 @@ class _ReInformHomePageState extends State<ReInformHomePage>
       return;
     }
 
-    final userInputOutput = UserInputOutput(
-      stmnt: text,
-      answer: "controversial",
-      explanation: "This is a placeholder"
-    );
+    http.put(Uri.parse('http://153.106.93.49/'),
+      headers: {"Content-Type": "application/json"},
+      body: json.encode({
+        "stmnt": text
+      })
+    ).then((value) {
+      var data = jsonDecode(value.body);
 
-    setState(() {
-      _userInputOutputs.add(userInputOutput);
-      _textController.clear();
+      final userInputOutput = UserInputOutput(
+        stmnt: text,
+        answer: data["answer"],
+        explanation: data["explanation"]
+      );
+
+      setState(() {
+        _userInputOutputs.add(userInputOutput);
+      });
+
+      // Scroll to the end of the list
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+
+      // Add animation to the newly added item
+      _listKey.currentState!.insertItem(_userInputOutputs.length - 1);
     });
 
-    // Scroll to the end of the list
-    _scrollController.animateTo(
-      _scrollController.position.maxScrollExtent,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeOut,
-    );
-
-    // Add animation to the newly added item
-    _listKey.currentState!.insertItem(_userInputOutputs.length - 1);
+    setState(() {
+        _textController.clear();
+      });
   }
 
   @override
