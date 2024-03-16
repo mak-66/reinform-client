@@ -60,6 +60,14 @@ class _MyHomePageState extends State<MyHomePage> {
     'accentText': Colors.grey,
   };
 
+  // Function to generate output
+  void generateOutput() {
+    // Perform your logic here to generate output
+    setState(() {
+      // outputText = 'Output from your function'; // Update output text
+    });
+  }
+
   //Process for handling process button
   void _processInputText() {
     setState(() {
@@ -115,7 +123,7 @@ class _MyHomePageState extends State<MyHomePage> {
               top: 500, // Adjust this value as needed
               left: 100, // Adjust this value as needed
               right: 100, // Adjust this value as needed
-              child: new SizedBox(
+              child: SizedBox(
                 width: 100.0,
                 height: 50.0,
                 child: ElevatedButton(
