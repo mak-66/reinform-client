@@ -83,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Stack(
           alignment: Alignment.center,
-          children: const <Widget>[
+          children: <Widget>[
             Positioned(
               top: 200, // Adjust this value as needed
               child: Text(
@@ -94,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Positioned(
               top: 250, // Adjust this value as needed
               left: 50, // Adjust this value as needed
-              right: 50, // Adjust this value as needed
+              right: 250, // Adjust this value as needed
               child: TextField(
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
@@ -102,13 +102,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
+            Positioned(
+              top: 250, // Adjust this value as needed
+              left: 1050, // Adjust this value as needed
+              right: 10, // Adjust this value as needed
+              child: ElevatedButton(
+                  onPressed: Enter, child: const Text('Process Text')),
+            )
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: Enter,
-        tooltip: 'Enter',
-        child: const Icon(Icons.add),
       ),
     );
   }
