@@ -1,3 +1,3 @@
 # reinform-client
 
-# Client application for the ReInform project
+### Client application for the ReInform project
