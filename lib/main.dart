@@ -10,24 +10,21 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'ReInform Client',
+      theme: ThemeData(
+          // This is the theme of your application.
+          //
+          // Try running your application with "flutter run". You'll see the
+          // application has a blue toolbar. Then, without quitting the app, try
+          // changing the primarySwatch below to Colors.green and then invoke
+          // "hot reload" (press "r" in the console where you ran "flutter run",
+          // or simply save your changes to "hot reload" in a Flutter IDE).
+          // Notice that the counter didn't reset back to zero; the application
+          // is not restarted.
 
-      //theme: ThemeData(
-      // This is the theme of your application.
-      //
-      // Try running your application with "flutter run". You'll see the
-      // application has a blue toolbar. Then, without quitting the app, try
-      // changing the primarySwatch below to Colors.green and then invoke
-      // "hot reload" (press "r" in the console where you ran "flutter run",
-      // or simply save your changes to "hot reload" in a Flutter IDE).
-      // Notice that the counter didn't reset back to zero; the application
-      // is not restarted.
-      // ),
-
-      home: MyHomePage(
-        title: '',
-      ),
+          ),
+      home: const MyHomePage(title: 'ReInform '),
     );
   }
 }
@@ -52,8 +49,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   var colorSwatch = {
-    'primaryBase': const Color.fromARGB(255, 31, 29, 29),
-    'secondaryBase': const Color.fromARGB(255, 35, 34, 34),
+    'primaryBase': Colors.grey,
+    'secondaryBase': Colors.grey,
     'accentBase': Colors.grey,
     'primaryText': const Color.fromARGB(255, 255, 255, 255),
     'secondaryText': Colors.grey,
@@ -75,55 +72,48 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    const Color customColor = Color.fromARGB(255, 31, 29, 29);
     return Scaffold(
-      backgroundColor: colorSwatch['primaryBase'],
+      backgroundColor: customColor,
       appBar: AppBar(
-        backgroundColor: colorSwatch['primaryBase'],
-        title: Text(
-          "ReInform",
-          style: TextStyle(color: colorSwatch['primaryText']),
-        ),
-        centerTitle: true,
+        title: Text(widget.title),
+        backgroundColor: Colors.black,
       ),
       body: Center(
         child: Stack(
           alignment: Alignment.center,
           children: <Widget>[
             Positioned(
-              top: 80, // Adjust this value as needed
+              top: 200, // Adjust this value as needed
               child: Text(
                 'Please enter the prompt you wish to learn about:',
-                // ignore: deprecated_member_use
-                textScaleFactor: .7,
                 style:
                     TextStyle(fontSize: 20, color: colorSwatch['primaryText']),
               ),
             ),
             Positioned(
-              top: 120, // Adjust this value as needed
+              top: 250, // Adjust this value as needed
               left: 50, // Adjust this value as needed
               right: 250, // Adjust this value as needed
               child: TextField(
                 style: TextStyle(color: colorSwatch['primaryText']),
-                decoration: InputDecoration(
-                  hintStyle: TextStyle(color: colorSwatch['primaryText']),
+                decoration: const InputDecoration(
                   hintText: 'Type here...',
+                  hintStyle: TextStyle(color: Colors.grey, fontSize: 15),
                 ),
               ),
             ),
             Positioned(
-              top: 500, // Adjust this value as needed
-              left: 100, // Adjust this value as needed
-              right: 100, // Adjust this value as needed
+              top: 250, // Adjust this value as needed
+              left: 1050, // Adjust this value as needed
+              right: 10, // Adjust this value as needed
               child: new SizedBox(
                 width: 100.0,
                 height: 50.0,
                 
                 child: ElevatedButton(
-                  onPressed: _processInputText,
-                  child: const Text(
+                  child: Text(
                     'Process',
-                    // ignore: deprecated_member_use
                     textScaleFactor: 2,
                     style:
                     TextStyle(fontSize: 20, color: Colors.white)
@@ -139,8 +129,19 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-}
 
-void Enter() {
-  // Code for the Enter Button
+  void Enter() {
+    Positioned(
+              top: 50, // Adjust this value as needed
+              left: 50, // Adjust this value as needed
+              right: 250, // Adjust this value as needed
+              child: TextField(
+                style: TextStyle(color: colorSwatch['primaryText']),
+                decoration: const InputDecoration(
+                  hintText: 'boop',
+                  hintStyle: TextStyle(color: Colors.grey, fontSize: 15),
+                ),
+              ),
+            );
+  }
 }
