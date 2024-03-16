@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // Import for RawKeyboardListener
 import 'package:http/http.dart' as http;
+import 'package:flutter_linkify/flutter_linkify.dart';
 
 void main() {
   runApp(const ReInformApp());
@@ -85,10 +86,15 @@ class _ReInformHomePageState extends State<ReInformHomePage>
         .then((value) {
       var data = jsonDecode(value.body);
 
+      String links = "";
+      for (var link in data["links"]) {
+        links += link + "\n";
+      }
+
       final userInputOutput = UserInputOutput(
         stmnt: text,
         answer: data["answer"],
-        explanation: data["explanation"],
+        explanation: data["explanation"] + "\n\n" + links,
       );
 
       setState(() {
@@ -207,8 +213,8 @@ class _ReInformHomePageState extends State<ReInformHomePage>
                                             ),
                                           ]),
                                       const SizedBox(height: 4.0),
-                                      Text(
-                                        userInputOutput.explanation,
+                                      Linkify(
+                                        text: userInputOutput.explanation,
                                         style: const TextStyle(
                                           fontSize: 16.0,
                                           color: Colors.white,
