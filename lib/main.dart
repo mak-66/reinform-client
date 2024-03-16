@@ -1,148 +1,106 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(ReInformApp());
 }
 
-class MyApp extends StatelessWidget {
-  MyApp({super.key});
-
-  // This widget is the root of your application.
+class ReInformApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'ReInform Client',
-
-      //theme: ThemeData(
-      // This is the theme of your application.
-      //
-      // Try running your application with "flutter run". You'll see the
-      // application has a blue toolbar. Then, without quitting the app, try
-      // changing the primarySwatch below to Colors.green and then invoke
-      // "hot reload" (press "r" in the console where you ran "flutter run",
-      // or simply save your changes to "hot reload" in a Flutter IDE).
-      // Notice that the counter didn't reset back to zero; the application
-      // is not restarted.
-      // ),
-
-      home: MyHomePage(
-        title: '',
-      ),
+    return MaterialApp(
+      theme: ThemeData.dark(),
+      home: ReInformHomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
+class ReInformHomePage extends StatefulWidget {
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  _ReInformHomePageState createState() => _ReInformHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  var colorSwatch = {
-    'primaryBase': const Color.fromARGB(255, 31, 29, 29),
-    'secondaryBase': const Color.fromARGB(255, 35, 34, 34),
-    'accentBase': Colors.grey,
-    'primaryText': const Color.fromARGB(255, 255, 255, 255),
-    'secondaryText': Colors.grey,
-    'accentText': Colors.grey,
-  };
+class _ReInformHomePageState extends State<ReInformHomePage> {
+  final TextEditingController _textController = TextEditingController();
+  String _outputText = "";
 
-  // Function to generate output
-  void generateOutput() {
-    // Perform your logic here to generate output
-    setState(() {
-      // outputText = 'Output from your function'; // Update output text
-    });
+  @override
+  void dispose() {
+    _textController.dispose();
+    super.dispose();
   }
 
-  //Process for handling process button
-  void _processInputText() {
+  void _handleSubmitted(String text) {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-
-      //TODO: Do proccessing command
+      _outputText +=
+          '\n\nUser:\n>>> $text\n\nRe-Inform:\n<<< ${text.split('').reversed.join()}';
+      _textController.clear();
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: colorSwatch['primaryBase'],
       appBar: AppBar(
-        backgroundColor: colorSwatch['primaryBase'],
-        title: Text(
-          "ReInform",
-          style: TextStyle(color: colorSwatch['primaryText']),
-        ),
-        centerTitle: true,
+        title: Text('ReInform'), // Re-added title
       ),
-      body: Center(
-        child: Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            Positioned(
-              top: 80, // Adjust this value as needed
-              child: Text(
-                'Please enter the prompt you wish to learn about:',
-                // ignore: deprecated_member_use
-                textScaleFactor: .7,
-                style:
-                    TextStyle(fontSize: 20, color: colorSwatch['primaryText']),
+      body: Column(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.all(16.0),
+              child: SingleChildScrollView(
+                // Only show output container if _outputText is not empty
+                child: _outputText.isEmpty
+                    ? null // Conditionally render the output container
+                    : Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey[700],
+                          borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                        ),
+                        padding: EdgeInsets.all(16.0),
+                        child: Text(
+                          _outputText,
+                          style: TextStyle(fontSize: 16.0, color: Colors.white),
+                        ),
+                      ),
               ),
             ),
-            Positioned(
-              top: 120, // Adjust this value as needed
-              left: 50, // Adjust this value as needed
-              right: 250, // Adjust this value as needed
-              child: TextField(
-                style: TextStyle(color: colorSwatch['primaryText']),
-                decoration: InputDecoration(
-                  hintStyle: TextStyle(color: colorSwatch['primaryText']),
-                  hintText: 'Type here...',
-                ),
-              ),
-            ),
-            Positioned(
-              top: 500, // Adjust this value as needed
-              left: 100, // Adjust this value as needed
-              right: 100, // Adjust this value as needed
-              child: SizedBox(
-                width: 100.0,
-                height: 50.0,
-                child: ElevatedButton(
-                  onPressed: _processInputText,
-                  child: const Text(
-                    'Process',
-                    // ignore: deprecated_member_use
-                    textScaleFactor: 2,
+          ),
+          Container(
+            color: Theme.of(context).primaryColor,
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[700],
+                        borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                      ),
+                      padding: EdgeInsets.all(16.0),
+                      child: TextField(
+                        controller: _textController,
+                        maxLines: null,
+                        decoration: InputDecoration.collapsed(
+                          hintText: 'Enter your prompt',
+                          hintStyle: TextStyle(color: Colors.white70),
+                        ),
+                        onSubmitted: _handleSubmitted,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
                   ),
-                ),
+                  IconButton(
+                    icon: Icon(Icons.send),
+                    onPressed: () => _handleSubmitted(_textController.text),
+                  ),
+                ],
               ),
-            )
-          ],
-        ),
+            ),
+          ),
+        ],
       ),
     );
   }
-}
-
-void Enter() {
-  // Code for the Enter Button
 }
