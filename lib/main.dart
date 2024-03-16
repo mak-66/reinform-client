@@ -52,8 +52,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   var colorSwatch = {
-    'primaryBase': Color.fromARGB(255, 31, 29, 29),
-    'secondaryBase': Color.fromARGB(255, 35, 34, 34),
+    'primaryBase': const Color.fromARGB(255, 31, 29, 29),
+    'secondaryBase': const Color.fromARGB(255, 35, 34, 34),
     'accentBase': Colors.grey,
     'primaryText': const Color.fromARGB(255, 255, 255, 255),
     'secondaryText': Colors.grey,
@@ -93,6 +93,8 @@ class _MyHomePageState extends State<MyHomePage> {
               top: 200, // Adjust this value as needed
               child: Text(
                 'Please enter the prompt you wish to learn about:',
+                // ignore: deprecated_member_use
+                textScaleFactor: .7,
                 style:
                     TextStyle(fontSize: 20, color: colorSwatch['primaryText']),
               ),
@@ -106,7 +108,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 decoration: InputDecoration(
                   hintStyle: TextStyle(color: colorSwatch['primaryText']),
                   hintText: 'Type here...',
-                  hintStyle: TextStyle(color: Colors.grey, fontSize: 15),
                 ),
               ),
             ),
@@ -114,15 +115,16 @@ class _MyHomePageState extends State<MyHomePage> {
               top: 250, // Adjust this value as needed
               left: 1050, // Adjust this value as needed
               right: 10, // Adjust this value as needed
-              child: new SizedBox(
+              child: SizedBox(
                 width: 100.0,
                 height: 50.0,
                 child: ElevatedButton(
-                  child: Text(
+                  onPressed: _processInputText,
+                  child: const Text(
                     'Process',
+                    // ignore: deprecated_member_use
                     textScaleFactor: 2,
                   ),
-                  onPressed: _processInputText,
                 ),
               ),
             )
