@@ -110,11 +110,16 @@ class _MyHomePageState extends State<MyHomePage> {
               child: new SizedBox(
                 width: 100.0,
                 height: 50.0,
+                
                 child: ElevatedButton(
                   child: Text(
                     'Process',
                     textScaleFactor: 2,
+                    style:
+                    TextStyle(fontSize: 20, color: Colors.white)
                   ),
+                style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue),
                   onPressed: _processInputText,
                 ),
               ),
@@ -126,6 +131,17 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void Enter() {
-    // Code for the Enter Button
+    Positioned(
+              top: 50, // Adjust this value as needed
+              left: 50, // Adjust this value as needed
+              right: 250, // Adjust this value as needed
+              child: TextField(
+                style: TextStyle(color: colorSwatch['primaryText']),
+                decoration: const InputDecoration(
+                  hintText: 'boop',
+                  hintStyle: TextStyle(color: Colors.grey, fontSize: 15),
+                ),
+              ),
+            );
   }
 }
