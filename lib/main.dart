@@ -6,7 +6,7 @@ void main() {
 }
 
 class ReInformApp extends StatelessWidget {
-  const ReInformApp({super.key});
+  const ReInformApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,21 +17,35 @@ class ReInformApp extends StatelessWidget {
   }
 }
 
+class UserInputOutput {
+  final String input;
+  final String output;
+
+  UserInputOutput({
+    required this.input,
+    required this.output,
+  });
+}
+
 class ReInformHomePage extends StatefulWidget {
-  const ReInformHomePage({super.key});
+  const ReInformHomePage({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _ReInformHomePageState createState() => _ReInformHomePageState();
 }
 
-class _ReInformHomePageState extends State<ReInformHomePage> {
+class _ReInformHomePageState extends State<ReInformHomePage>
+    with TickerProviderStateMixin {
   final TextEditingController _textController = TextEditingController();
-  String _outputText = "";
-  bool output = false;
+  final ScrollController _scrollController = ScrollController();
+  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
+  final List<UserInputOutput> _userInputOutputs = [];
 
   @override
   void dispose() {
     _textController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -42,12 +56,25 @@ class _ReInformHomePageState extends State<ReInformHomePage> {
       return;
     }
 
+    final userInputOutput = UserInputOutput(
+      input: text,
+      output: text.split('').reversed.join(),
+    );
+
     setState(() {
-      _outputText +=
-          'User:\n>>> $text\nRe-Inform:\n<<< ${text.split('').reversed.join()}\n\n';
+      _userInputOutputs.add(userInputOutput);
       _textController.clear();
-      output = false; // Reset output after submission
     });
+
+    // Scroll to the end of the list
+    _scrollController.animateTo(
+      _scrollController.position.maxScrollExtent,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
+
+    // Add animation to the newly added item
+    _listKey.currentState!.insertItem(_userInputOutputs.length - 1);
   }
 
   @override
@@ -59,25 +86,73 @@ class _ReInformHomePageState extends State<ReInformHomePage> {
       body: Column(
         children: [
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: SingleChildScrollView(
-                child: _outputText.isEmpty
-                    ? null
-                    : Container(
+            child: AnimatedList(
+              key: _listKey,
+              controller: _scrollController,
+              initialItemCount: _userInputOutputs.length,
+              itemBuilder: (context, index, animation) {
+                final userInputOutput = _userInputOutputs[index];
+                return FadeTransition(
+                  opacity: animation,
+                  child: SlideTransition(
+                    position: Tween<Offset>(
+                      begin: const Offset(0, -0.1),
+                      end: Offset.zero,
+                    ).animate(animation),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0,
+                        vertical: 8.0,
+                      ),
+                      child: Container(
                         decoration: BoxDecoration(
                           color: Colors.grey[900],
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(16.0)),
+                          borderRadius: BorderRadius.circular(16.0),
                         ),
                         padding: const EdgeInsets.all(16.0),
-                        child: Text(
-                          _outputText,
-                          style: const TextStyle(
-                              fontSize: 16.0, color: Colors.white),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'User:',
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 4.0),
+                            Text(
+                              '>>> ${userInputOutput.input}',
+                              style: const TextStyle(
+                                fontSize: 16.0,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const SizedBox(height: 8.0),
+                            const Text(
+                              'Re-Inform:',
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 4.0),
+                            Text(
+                              '<<< ${userInputOutput.output}',
+                              style: const TextStyle(
+                                fontSize: 16.0,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-              ),
+                    ),
+                  ),
+                );
+              },
             ),
           ),
           Container(
@@ -90,16 +165,16 @@ class _ReInformHomePageState extends State<ReInformHomePage> {
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.grey[900],
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(16.0)),
+                        borderRadius: BorderRadius.circular(16.0),
                       ),
                       padding: const EdgeInsets.all(16.0),
+                      // ignore: deprecated_member_use
                       child: RawKeyboardListener(
                         focusNode: FocusNode(), // Optional: manage focus
+                        // ignore: deprecated_member_use
                         onKey: (RawKeyEvent event) {
                           if (event.logicalKey == LogicalKeyboardKey.enter) {
                             _handleSubmitted(_textController.text);
-                            output = false; // Reset output on Enter press
                           }
                         },
                         child: TextField(
