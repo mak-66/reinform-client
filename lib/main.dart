@@ -7,15 +7,6 @@ void main() {
 class MyApp extends StatelessWidget {
   MyApp({super.key});
 
-  var colorSwatch = {
-    'primaryBase': Colors.grey,
-    'secondaryBase': Colors.grey,
-    'accentBase': Colors.grey,
-    'primaryText': Colors.grey,
-    'secondaryText': Colors.grey,
-    'accentText': Colors.grey,
-  };
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -31,6 +22,7 @@ class MyApp extends StatelessWidget {
           // or simply save your changes to "hot reload" in a Flutter IDE).
           // Notice that the counter didn't reset back to zero; the application
           // is not restarted.
+
           ),
       home: const MyHomePage(title: 'ReInform '),
     );
@@ -56,6 +48,15 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  var colorSwatch = {
+    'primaryBase': Colors.grey,
+    'secondaryBase': Colors.grey,
+    'accentBase': Colors.grey,
+    'primaryText': const Color.fromARGB(255, 255, 255, 255),
+    'secondaryText': Colors.grey,
+    'accentText': Colors.grey,
+  };
+
   //Process for handling process button
   void _processInputText() {
     setState(() {
@@ -76,8 +77,9 @@ class _MyHomePageState extends State<MyHomePage> {
       backgroundColor: customColor,
       appBar: AppBar(
         title: Text(widget.title),
+        backgroundColor: Colors.black,
       ),
-      body: const Center(
+      body: Center(
         child: Stack(
           alignment: Alignment.center,
           children: <Widget>[
@@ -85,35 +87,45 @@ class _MyHomePageState extends State<MyHomePage> {
               top: 200, // Adjust this value as needed
               child: Text(
                 'Please enter the prompt you wish to learn about:',
-                style: TextStyle(color: Colors.white, fontSize: 20),
+                style:
+                    TextStyle(fontSize: 20, color: colorSwatch['primaryText']),
               ),
             ),
             Positioned(
               top: 250, // Adjust this value as needed
               left: 50, // Adjust this value as needed
-              right: 50, // Adjust this value as needed
+              right: 250, // Adjust this value as needed
               child: TextField(
-                style: TextStyle(color: Colors.white, fontSize: 15),
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
+                style: TextStyle(color: colorSwatch['primaryText']),
+                decoration: const InputDecoration(
                   hintText: 'Type here...',
                   hintStyle: TextStyle(color: Colors.grey, fontSize: 15),
                 ),
               ),
             ),
+            Positioned(
+              top: 250, // Adjust this value as needed
+              left: 1050, // Adjust this value as needed
+              right: 10, // Adjust this value as needed
+              child: new SizedBox(
+                width: 100.0,
+                height: 50.0,
+                child: ElevatedButton(
+                  child: Text(
+                    'Process',
+                    textScaleFactor: 2,
+                  ),
+                  onPressed: _processInputText,
+                ),
+              ),
+            )
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: enter,
-        tooltip: 'Enter',      
-        child: const Icon(Icons.add),
-        
       ),
     );
   }
 
-  void enter() {
+  void Enter() {
     // Code for the Enter Button
   }
 }
