@@ -66,7 +66,6 @@ class _MyHomePageState extends State<MyHomePage> {
       // called again, and so nothing would appear to happen.
 
       //TODO: Do proccessing command
-      _counter++;
     });
   }
 
@@ -78,7 +77,6 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
       body: Center(
         child: Stack(
           alignment: Alignment.center,
