@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget {
           // or simply save your changes to "hot reload" in a Flutter IDE).
           // Notice that the counter didn't reset back to zero; the application
           // is not restarted.
+
           ),
       home: const MyHomePage(title: 'ReInform'),
     );
@@ -79,6 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
       backgroundColor: customColor,
       appBar: AppBar(
         title: Text(widget.title),
+        backgroundColor: Colors.black,
       ),
       body: Center(
         child: Stack(
@@ -88,7 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
               top: 200, // Adjust this value as needed
               child: Text(
                 'Please enter the prompt you wish to learn about:',
-                style: const TextStyle(fontSize: 20),
+                style: const TextStyle(color: Colors.white, fontSize: 20),
               ),
             ),
             Positioned(
@@ -106,8 +108,17 @@ class _MyHomePageState extends State<MyHomePage> {
               top: 250, // Adjust this value as needed
               left: 1050, // Adjust this value as needed
               right: 10, // Adjust this value as needed
-              child: ElevatedButton(
-                  onPressed: Enter, child: const Text('Process Text')),
+              child: new SizedBox(
+                width: 100.0,
+                height: 50.0,
+                child: ElevatedButton(
+                  child: Text(
+                    'Process',
+                    textScaleFactor: 2,
+                  ),
+                  onPressed: _processInputText,
+                ),
+              ),
             )
           ],
         ),
